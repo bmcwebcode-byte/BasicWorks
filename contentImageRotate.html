@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      body {
+  margin: 0;
+  height: 200vh; /* enables scroll */
+  background: black;
+  overflow-x: hidden;
+  font-family: Arial;
+}
+
+/* full-screen stage */
+.scene {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* centered content */
+.content {
+  position: absolute;
+  text-align: center;
+  color: white;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 1s ease;
+  z-index: 10;
+}
+
+/* orbit center locked */
+.orbit {
+  position: relative;
+  width: 300px;
+  height: 400px;
+}
+
+/* stacked images */
+.orbit img {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 12px;
+  will-change: transform;
+  transition: transform 0.1s linear;
+}
+.orbit h4{}
+    </style>
+</head>
+<body>
+    <div class="scene">
+
+  <!-- content hidden initially -->
+  <div class="content">
+    <h1>My Universe</h1>
+    <p>Scroll to reveal motion</p>
+    <button>Explore</button>
+    <a href="#">Learn More</a>
+  </div>
+    <!-- image system -->
+  <div class="orbit">
+    <h4>Scroll down to see motion</h4>
+    <img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE(1).jpg">
+    <img src="../Aurum/aurum/AURAM_Images/AURAM_LANDING PAGE10.jpg">
+    <img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE10.jpg">
+    <img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE11.jpg">
+    <img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE12.jpg">
+    <img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE13.jpg">
+    <img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE14.jpg">
+    <img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE15(1).jpg">
+    <img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE2.jpg">
+    <img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE4.jpg">
+ 
+</div>
+</div>
+
+
+<script>
+  const images = document.querySelectorAll(".orbit img");
+const content = document.querySelector(".content");
+
+let target = 0;
+let current = 0;
+
+/* smooth scroll input */
+window.addEventListener("wheel", (e) => {
+  target += e.deltaY * 0.0015;
+  target = Math.max(0, Math.min(1, target));
+});
+
+/* animation loop for smooth easing */
+function animate() {
+  current += (target - current) * 0.7; // easing factor
+
+ const radius = 220; // GAP CONTROL
+
+images.forEach((img, i) => {
+
+  const angle = (i / images.length) * Math.PI * 2 + current * 2 * Math.PI;
+
+  const x = Math.cos(angle) * radius * current;
+  const y = Math.sin(angle) * radius * current;
+
+  img.style.transform = `
+    translate(-50%, -50%)
+    translate(${x}px, ${y}px)
+    scale(${0.5 + current * 0.5})
+  `;
+});
+
+  /* content fade + center reveal */
+  content.style.opacity = current > 0.7 ? 1 : 0;
+  content.style.transform = current > 0.7
+    ? "translateY(0px)"
+    : "translateY(20px)";
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+</body>
+</html>
