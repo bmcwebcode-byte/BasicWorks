@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+  body {
+  margin: 0;
+}
+
+/* Scroll height */
+.scroll-section {
+  height: 300vh;
+}
+
+.sticky-wrapper {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* BACKGROUND */
+.bg-slider {
+  position: absolute;
+  width: 100%;
+}
+
+.bg {
+  height: 100vh;
+}
+
+.bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content {
+  position: absolute;
+  bottom:200px;
+  right: 40px;
+
+  width: 400px;
+  height: 250px;
+  object-fit: cover;
+}
+
+/* WINDOW (only ONE visible) */
+.image-window {
+  width: 400px;
+  height: 250px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+/* TRACK (this moves) */
+.image-track {
+  display: flex;
+  height: 7000px;
+  flex-direction: column;
+    transition: filter 0.2s;
+}
+
+/* IMAGES */
+.image-track img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.image-track img.active {
+  transform: scale(1.05);
+}
+    </style>
+</head>
+<body>
+ <section class="scroll-section">
+  <div class="sticky-wrapper">
+
+    <!-- Background -->
+    <div class="bg-slider">
+      <div class="bg"><img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE1.jpg"></div>
+      <div class="bg"><img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE10.jpg"></div>
+      <div class="bg"><img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE12.jpg"></div>
+      <div class="bg"><img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE11.jpg"></div>
+      <div class="bg"><img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE13.jpg"></div>
+      <div class="bg"><img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE14.jpg"></div>
+
+
+
+    </div>
+
+    <!-- FIXED CONTAINER -->
+    <div class="content">
+      <div class="image-window">
+        <div class="image-track">
+          <img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE11.jpg">
+          <img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE15.jpg">
+          <img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE3.jpg">
+            <img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE15(1).jpg">
+            <img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE2.jpg">
+            <img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE12.jpg">
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+<script>
+const bgSlider = document.querySelector(".bg-slider");
+const imageTrack = document.querySelector(".image-track");
+const section = document.querySelector(".scroll-section");
+
+window.addEventListener("scroll", () => {
+  const scrollY = window.scrollY;
+
+  const sectionTop = section.offsetTop;
+  const sectionHeight = section.offsetHeight;
+  const screenHeight = window.innerHeight;
+
+  let progress = (scrollY - sectionTop) / (sectionHeight - screenHeight);
+
+  // Clamp
+  progress = Math.max(0, Math.min(1, progress));
+
+  // BACKGROUND (full slide)
+  const bgMove = progress * (bgSlider.scrollHeight - screenHeight);
+  bgSlider.style.transform = `translateY(-${bgMove}px)`;
+  
+
+  // IMAGE TRACK (step-like smooth slide)
+  const totalImages = 6;
+  const movePerImage = 250; // image height
+
+  const imageMove = progress * (totalImages - 1) * movePerImage;
+
+  imageTrack.style.transform = `translateY(-${imageMove}px)`;
+});
+</script>
+</body>
+</html>

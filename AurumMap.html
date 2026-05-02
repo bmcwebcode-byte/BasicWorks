@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: black;
+        }
+        
+          .location-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+/* Left side (map) */
+.location-map-area {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Right side (tabs) */
+.location-tabs {
+  flex: 1;
+  min-width: 0;
+}
+  .location-visual {
+    background: var(--dark3);
+    aspect-ratio: 1;
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .location-tabs {
+  padding-top: 20px;
+}
+/* SVG map illustration */
+  .location-visual svg { width: 100%; height: 100%; }
+  .location-pulse {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .pulse-ring {
+    position: absolute; border-radius: 50%;
+    border: 1px solid var(--gold);
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+    animation: pulse 3s infinite;
+  }
+  .pulse-ring:nth-child(1) { width: 20px; height: 20px; animation-delay: 0s; }
+  .pulse-ring:nth-child(2) { width: 50px; height: 50px; animation-delay: 0.5s; opacity: 0.7; }
+  .pulse-ring:nth-child(3) { width: 90px; height: 90px; animation-delay: 1s; opacity: 0.4; }
+  .pulse-ring:nth-child(4) { width: 130px; height: 130px; animation-delay: 1.5s; opacity: 0.2; }
+  .pulse-dot { width: 12px; height: 12px; background: var(--gold); border-radius: 50%; position: relative; z-index: 2; box-shadow: 0 0 20px var(--gold); }
+  .location-label {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    text-align: first;padding:40px;
+  
+    font-family: 'HeadingFont';
+    font-size: 0.85rem; letter-spacing: 4px; text-transform: uppercase; color: var(--gold);
+  }
+  .nearby-cats { display: flex; flex-direction: column; gap: 32px; }
+  .nearby-cat-title {
+    font-size: 0.65rem; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .nearby-cat-title::before { content: ''; width: 20px; height: 1px; background: var(--gold); }
+  .nearby-items { display: flex; flex-direction: column; gap: 10px; }
+  .nearby-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px;
+    background: var(--glass); border: 1px solid rgba(201,168,76,0.07);
+    transition: all 0.3s;
+  }
+  .nearby-item:hover { background: rgba(201,168,76,0.06); border-color: rgba(201,168,76,0.2); }
+  .nearby-name { font-size: 0.78rem; font-weight: 400; color: var(--white); }
+  .nearby-time { font-size: 0.7rem; color: var(--gold); font-weight: 500; letter-spacing: 1px; }
+
+  #map-section {
+  padding: 140px 60px;
+  background: var(--black);
+}
+
+.map-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.map-wrapper {
+  position: relative;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.map-frame {
+  width: 100%;
+  height: 500px;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 0 40px rgba(201,168,76,0.15);
+  position: relative;
+}
+
+.map-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+ 
+}
+
+/* Glass overlay card */
+.map-overlay-card {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+  background: rgba(5,5,5,0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  padding: 20px 30px;
+  max-width: 220px;
+  letter-spacing: 1.0px;
+}
+
+.map-overlay-card h3 {
+  font-family: 'HeadingFont';
+  color: var(--gold-light);
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  letter-spacing: 0;
+}
+
+.map-overlay-card p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.map-badge {
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.map-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+ 
+}
+
+
+/* Aurum text */
+.center-label {
+  display: block;
+  margin-top: 28px;
+  font-size: 1.2rem; /* match others */
+   color: var(--gold);
+  letter-spacing: 1px;
+  text-align: center;
+  font-family:'Montserrat';
+}
+  .location-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+/* Left side (map) */
+.location-map-area {
+  flex: 1;
+  min-width: 0;
+}
+.location-map-area {
+  flex: 1;
+  min-width: 0;
+}
+
+  /* SVG map illustration */
+  .location-visual svg { width: 100%; height: 100%; }
+  .location-pulse {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .pulse-ring {
+    position: absolute; border-radius: 50%;
+    border: 1px solid var(--gold);
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+    animation: pulse 3s infinite;
+  }
+  .pulse-ring:nth-child(1) { width: 20px; height: 20px; animation-delay: 0s; }
+  .pulse-ring:nth-child(2) { width: 50px; height: 50px; animation-delay: 0.5s; opacity: 0.7; }
+  .pulse-ring:nth-child(3) { width: 90px; height: 90px; animation-delay: 1s; opacity: 0.4; }
+  .pulse-ring:nth-child(4) { width: 130px; height: 130px; animation-delay: 1.5s; opacity: 0.2; }
+  .pulse-dot { width: 12px; height: 12px; background: var(--gold); border-radius: 50%; position: relative; z-index: 2; box-shadow: 0 0 20px var(--gold); }
+
+    </style>
+</head>
+<body>
+   <div class="location-wrapper">
+    <div class="location-map-area reveal">
+      <div class="location-visual" style="height:480px; background: radial-gradient(ellipse at center, rgba(201,168,76,0.08) 0%, var(--dark3) 70%);">
+        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" style="position:absolute; inset:0; opacity:0.3;">
+          <circle cx="200" cy="200" r="180" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="0.5"/>
+          <circle cx="200" cy="200" r="120" fill="none" stroke="rgba(201,168,76,0.2)" stroke-width="0.5"/>
+          <circle cx="200" cy="200" r="60" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="0.5"/>
+          <line x1="0" y1="200" x2="400" y2="200" stroke="rgba(201,168,76,0.15)" stroke-width="0.5"/>
+          <line x1="200" y1="0" x2="200" y2="400" stroke="rgba(201,168,76,0.15)" stroke-width="0.5"/>
+          <line x1="0" y1="0" x2="400" y2="400" stroke="rgba(201,168,76,0.08)" stroke-width="0.5"/>
+          <line x1="400" y1="0" x2="0" y2="400" stroke="rgba(201,168,76,0.08)" stroke-width="0.5"/>
+          <!-- Roads -->
+          <path d="M50,180 Q150,175 200,200 Q250,225 350,215" fill="none" stroke="rgba(201,168,76,0.4)" stroke-width="2"/>
+          <path d="M150,50 Q175,150 200,200 Q225,250 210,360" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="1.5"/>
+          <!-- Markers -->
+          <circle cx="280" cy="120" r="4" fill="rgba(201,168,76,0.6)"/>
+          <text x="290" y="118" fill="rgba(201,168,76,0.6)" font-size="8" font-family="Montserrat">WIPRO</text>
+          <circle cx="300" cy="170" r="4" fill="rgba(201,168,76,0.6)"/>
+          <text x="310" y="168" fill="rgba(201,168,76,0.6)" font-size="8">Amazon</text>
+          <circle cx="130" cy="280" r="4" fill="rgba(201,168,76,0.6)"/>
+          <text x="100" y="295" fill="rgba(201,168,76,0.6)" font-size="8">Continental</text>
+          <circle cx="310" cy="280" r="4" fill="rgba(201,168,76,0.6)"/>
+          <text x="265" y="296" fill="rgba(201,168,76,0.6)" font-size="8">Kokapet Mall</text>
+          <circle cx="100" cy="160" r="4" fill="rgba(201,168,76,0.6)"/>
+          <text x="55" y="156" fill="rgba(201,168,76,0.6)" font-size="8">Oakridge</text>
+        </svg>
+            <div class="map-center">
+  <span class="center-dot"></span>
+  <span class="center-label">Aurum</span>
+</div>
+          <div class="pulse-ring"></div>
+          <div class="pulse-ring"></div>
+          <div class="pulse-ring"></div>
+          <div class="pulse-ring"></div>
+          <div class="pulse-dot"></div>
+        </div>
+      </div>
+
+
+      <div class="orbit-container">
+  <div class="ring ring1"></div>
+  <div class="ring ring2"></div>
+  <div class="ring ring3"></div>
+
+  <div class="center-text">Aurum</div>
+</div>
+    <script>
+   
+
+  /* ── CUSTOM CURSOR ── */
+  const cursorDot = document.getElementById('cursor-dot');
+  const cursorRing = document.getElementById('cursor-ring');
+
+  if (cursorDot && cursorRing) {
+    let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursorDot.style.left = mouseX + 'px';
+      cursorDot.style.top = mouseY + 'px';
+    });
+
+    function animateRing() {
+      ringX += (mouseX - ringX) * 0.12;
+      ringY += (mouseY - ringY) * 0.12;
+      cursorRing.style.left = ringX + 'px';
+      cursorRing.style.top = ringY + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+}
+    </script>
+</body>
+</html>

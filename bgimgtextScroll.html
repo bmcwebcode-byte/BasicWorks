@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+  body {
+  margin: 0;
+  font-family: Arial;
+}
+
+/* Main background layer */
+.bg {
+  position: fixed;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: background-image 0.8s ease;
+  z-index: -1;
+}
+
+/* Sections */
+.panel {
+  height: 100vh;
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+  padding-left: 60px;
+}
+
+.panel h1,h3 {
+  color: white;
+  font-size: 3rem;
+
+  
+}
+
+/* Hide source images */
+.bg-source {
+  display: none;
+}
+    </style>
+</head>
+<body>
+  <div class="wrapper">
+
+ <div class="bg"></div>
+
+<section class="panel">
+  <img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE1.jpg" class="bg-source" alt="">
+  <h1>Heading One</h1>
+  <h3>Lorem ipsum dolor sit, <br>
+    amet consectetur</h3>
+</section>
+
+<section class="panel">
+  <img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE10.jpg" class="bg-source" alt="">
+  <h1>Heading Two</h1>
+  <h3>Lorem ipsum dolor sit, <br> amet consectetur</h3>
+</section>
+
+<section class="panel">
+  <img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE11.jpg" class="bg-source" alt="">
+  <h1>Heading Three</h1><br>
+  <h3>Lorem ipsum dolor sit, <br> 
+    amet consectetur</h3>
+</section>
+
+<section class="panel">
+  <img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE13.jpg" class="bg-source" alt="">
+  <h1>Heading Four</h1>
+  <h3>Lorem ipsum dolor sit,  <br>amet consectetur</h3>
+</section>
+
+<section class="panel">
+  <img src="../Aurum/AURAM_Images/AURAM_LANDING PAGE2.jpg" class="bg-source" alt="">
+  <h1>Heading Five</h1>
+  <h3>Lorem ipsum dolor sit,  <br>amet consectetur</h3>
+</section>
+
+</div>
+<script>
+const panels = document.querySelectorAll(".panel");
+const bg = document.querySelector(".bg");
+
+let activeIndex = -1;
+
+/* set first image */
+bg.style.backgroundImage = `url(${panels[0].querySelector("img").src})`;
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+
+    if (entry.isIntersecting) {
+      const index = [...panels].indexOf(entry.target);
+
+      // 🚨 prevent repeated triggering
+      if (activeIndex === index) return;
+
+      activeIndex = index;
+
+      const img = entry.target.querySelector("img");
+      bg.style.backgroundImage = `url(${img.src})`;
+    }
+
+  });
+}, {
+  threshold: 0.7,   // 👈 more strict = cleaner switching
+  rootMargin: "0px 0px -20% 0px"
+});
+
+panels.forEach(panel => observer.observe(panel));
+</script>
+</body>
+</html>
